@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Добавте новый пост</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {{ form_end(form) }}
+    <p>
+        <a href="{{ path('show_post') }}"
+           style="text-decoration: none"><input type="submit" value="Вернуться на главную"></a>
+
+
+
+    </p>
+{% endblock %}

@@ -1,0 +1,30 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div style="text-align: center">
+
+
+
+        {% for post in posts %}
+            <a href="{{ path('post_page', {'id': post.id}) }}">{{ post.heading }}</a><br>
+            {{ post.dataPost|date('Y-m-d') }}<br>
+            {{ post.getParagraph(post) }}<br>
+
+                <a href="{{ path('post_page', {'id': post.id}) }}">Читать дальше</a> <br>
+                <p>
+                    <span class="glyphicon glyphicon-trash"></span>
+                    <a href="{{ path('del_post', {'id': post.id}) }}">Удалить </a>
+                </p>
+
+
+
+
+            <br>
+
+            <hr>
+        {% endfor %}
+    </div>
+
+{% endblock %}

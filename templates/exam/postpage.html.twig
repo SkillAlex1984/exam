@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    {{ post.heading }}<br>
+    <hr>
+    {{ post.dataPost|date('Y-m-d') }}<br>
+    <hr>
+    {{ post.textPost }}<br>
+    <hr>
+
+
+    <a href="{{ path('edit_post', {'id': post.id}) }}">Редактировать пост</a> <br>
+
+    <a href="{{ path('show_post') }}">Вернутся на главную страницу</a> <br>
+
+
+{% endblock %}
