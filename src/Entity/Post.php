@@ -45,6 +45,7 @@ class Post
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Coment", mappedBy="post")
      * @ORM\OrderBy({"dataComent" = "DESC"})
+     * @ORM\JoinColumn(name="post_id", onDelete="CASCADE")
      *
      */
     private $coments;
@@ -130,6 +131,7 @@ class Post
     public function __construct()
     {
         $this->coments = new ArrayCollection();
+        $this->dataPost = new \DateTime();
     }
 
     /**
@@ -151,6 +153,8 @@ class Post
 
         return $this;
     }
+
+
 
 
 }

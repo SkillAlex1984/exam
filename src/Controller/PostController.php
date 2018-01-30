@@ -88,12 +88,10 @@ class PostController extends Controller
     /**
      * @Route("/exam/edit-post/{id}", name = "edit_post")
      *
-     * @ParamConverter("id", options={"mapping":{"id": "id"}})
+     *
      */
-    public function editPostPage(Post $post, Request $request, EntityManagerInterface $em, SessionInterface $session)
+    public function editPostPage(Post $post, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->postPage($post, $session);
-
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,6 +108,7 @@ class PostController extends Controller
 
     /**
      * @Route("delete-post/{id}", name="del_post")
+     *
      */
     public function deletePost($id)
     {
@@ -120,5 +119,7 @@ class PostController extends Controller
         $em->flush();
         return $this->redirectToRoute('show_post', ['post'=>$post]);
     }
+
+
 
 }
