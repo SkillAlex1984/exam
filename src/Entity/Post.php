@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -23,6 +26,7 @@ class Post
      *
      */
     private $dataPost;
+
     /**
      * @var string
      *
@@ -35,6 +39,18 @@ class Post
      * @ORM\Column(type="text")
      */
     private $textPost;
+
+    /**
+     * @var Coment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Coment", mappedBy="post")
+     * @ORM\OrderBy({"dataComent" = "DESC"})
+     *
+     */
+    private $coments;
+
+
+
     /**
      * @return mixed
      */
@@ -107,6 +123,33 @@ class Post
         if(preg_match($patern, $text, $matches)) {
             return  $matches[1];
         }
+    }
+
+
+
+    public function __construct()
+    {
+        $this->coments = new ArrayCollection();
+    }
+
+    /**
+     *@return Coment[]|ArrayCollection
+     */
+    public function getComents(): Collection
+    {
+        return $this->coments;
+    }
+
+    /**
+     * @param mixed $coments
+     * @return Post
+     */
+    public function addComents(Coment $coment)
+    {
+        $this->coments->add($coment);
+        $coment->setPost($this);
+
+        return $this;
     }
 
 

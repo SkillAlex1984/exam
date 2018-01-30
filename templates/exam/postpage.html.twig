@@ -9,9 +9,27 @@
     <hr>
     {{ post.textPost }}<br>
     <hr>
+    <p style="text-align: center">
+
+        {% for coment in post.coments %}
+            {{ coment.dataComent|date('d-M-Y H:i:s') }}<br>
+            {{ coment.nikname }}<br>
+            {{ coment.textComent }}<br>
+
+        {% endfor %}
+    </p>
+
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <p></p>
+
+    {{ form_end(form) }}
 
 
     <a href="{{ path('edit_post', {'id': post.id}) }}">Редактировать пост</a> <br>
+
+
 
     <a href="{{ path('show_post') }}">Вернутся на главную страницу</a> <br>
 

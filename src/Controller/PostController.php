@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\PostType;
+use App\Entity\Coment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,15 +37,32 @@ class PostController extends Controller
 
 
      /**
-     * @Route("/exam/post-page/{id}", name="post_page")
-     *
-     * @ParamConverter("id", options={"mapping":{"id": "id"}})
+      *
+      * @Route("/exam/post-page/{id}", name="post_page")
      */
-    public function postPage(Post $post, SessionInterface $session)
+    public function postPage (Post $post, Request $request, EntityManagerInterface $em, SessionInterface $session)
     {
-        $session->set('', $post->getId());
-        return $this->render('exam/postpage.html.twig', ['post'=>$post]
-        );
+
+        $comments =$post->getComents();
+        $comm = new Coment();
+
+        $form = $this->createForm(CommentType::class, $comm);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post->addComents($comm);
+            $em->persist($comm);
+            $em->flush();
+            $id = $post->getId();
+
+            return $this->redirectToRoute('post_page', ['id' => $id]);
+        }
+        return $this->render('exam/postpage.html.twig', array(
+            'form' => $form->createView(),
+            'post' => $post,
+            'comments' => $comments,
+        ));
     }
     /**
      * @Route("/exam/add-post", name="add_post")
@@ -71,7 +90,7 @@ class PostController extends Controller
      *
      * @ParamConverter("id", options={"mapping":{"id": "id"}})
      */
-    public function editPostPage(Post $post, SessionInterface $session, Request $request)
+    public function editPostPage(Post $post, Request $request, EntityManagerInterface $em, SessionInterface $session)
     {
         $form = $this->postPage($post, $session);
 

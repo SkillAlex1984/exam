@@ -6,25 +6,29 @@
     <div style="text-align: center">
 
 
+    <form>
 
-        {% for post in posts %}
-            <a href="{{ path('post_page', {'id': post.id}) }}">{{ post.heading }}</a><br>
-            {{ post.dataPost|date('Y-m-d') }}<br>
-            {{ post.getParagraph(post) }}<br>
+    {% for post in posts %}
+    <a href="{{ path('post_page', {'id': post.id}) }}">Заголовок поста  {{ post.heading }}</a><br>
+       Дата публикации: {{ post.dataPost|date('Y-m-d') }}<br>
+        <br>
+        <p><textarea name="comment" >{{ post.getParagraph(post) }}</textarea></p>
+        {{ post.coments.count }}
+        <a href="{{ path('post_page', {'id': post.id}) }}">Читать дальше</a> <br>
+        <p>
+            <span class="glyphicon glyphicon-trash"></span>
+            <a href="{{ path('del_post', {'id': post.id}) }}">Удалить </a>
+        </p>
 
-                <a href="{{ path('post_page', {'id': post.id}) }}">Читать дальше</a> <br>
-                <p>
-                    <span class="glyphicon glyphicon-trash"></span>
-                    <a href="{{ path('del_post', {'id': post.id}) }}">Удалить </a>
-                </p>
+        <br>
+
+        <hr>
 
 
-
-
-            <br>
-
-            <hr>
         {% endfor %}
+    </form>
+
+
     </div>
 
 {% endblock %}
